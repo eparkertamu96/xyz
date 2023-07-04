@@ -19,5 +19,8 @@ jobs:
       
     - name: Push Docker Image to GitHub Container Registry
       uses: docker/build-push-action@v4.1.1
+      with:
+        push: true
+        tags: eparkertamu96/xyz:latest
         
   
