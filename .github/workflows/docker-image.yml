@@ -49,5 +49,8 @@ jobs:
 
     - name: Deploy to EKS
       run: kubectl apply -f ./deploy/xyz_config.yaml
+      
+    - name: Deploy latest Docker image
+      run: kubectl rollout restart deployment xyz-api-deployment
         
   
