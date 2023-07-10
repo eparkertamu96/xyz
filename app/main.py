@@ -7,4 +7,4 @@ app = FastAPI()
 @app.get("/")
 def read_root():
     time = datetime.timestamp(datetime.now())
-    return {"message": "Automate all the things! X2", "timestamp": time}
+    return {"message": "Automate all the things!", "timestamp": time}
