@@ -55,5 +55,27 @@ jobs:
       
     - name: Deploy latest Docker image
       run: kubectl rollout restart deployment xyz-api-deployment
-        
   
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: eparkertamu96/xyz_automated_tests
+
+      - name: Setup project
+        run: |
+          sudo apt-get update
+          sudo apt install nodejs
+          sudo npm install
+          
+      - name: Execute Tests
+        run: |
+          TEST_URL=${{ secrets.APP_URL }} npx nightwatch ./test/xyz_tests.ts --env api_testing
+  
+      - name: Archive test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: tests_output
