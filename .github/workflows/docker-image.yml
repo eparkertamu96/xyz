@@ -48,7 +48,7 @@ jobs:
       run: aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.CLUSTER_NAME }} --role-arn ${{ secrets.ROLE_ARN }}
 
     - name: Update config file with secrets
-      run: sed -i -s "s%%CERTIFICATE_ARN%%/${{ secrets.CERTIFICATE_ARN }}g"
+      run: sed -i -s "s%%CERTIFICATE_ARN%%/${{ secrets.CERTIFICATE_ARN }}g" ./deploy/xyz_config.yaml
       
     - name: Deploy to EKS
       run: kubectl apply -f ./deploy/xyz_config.yaml
