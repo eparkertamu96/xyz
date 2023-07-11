@@ -20,7 +20,7 @@ jobs:
 
     - name: Run PyLint
       run: |
-        pip install --no-cache-dir --upgrade -r /code/requirements.txt
+        pip install --no-cache-dir --upgrade -r requirements.txt
         pylint app
       
     - name: Set up Docker Buildx
@@ -40,6 +40,7 @@ jobs:
         tags: ghcr.io/eparkertamu96/xyz:latest
         
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -68,6 +69,7 @@ jobs:
       run: kubectl rollout restart deployment xyz-api-deployment
   
   test:
+    needs: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
