@@ -33,6 +33,12 @@ jobs:
       with:
         push: true
         tags: ghcr.io/eparkertamu96/xyz:latest
+        
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.5.3
       
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -49,7 +55,7 @@ jobs:
 
     - name: Update config file with secrets
       run: sed -i "s|%%CERTIFICATE_ARN%%|${{ secrets.CERTIFICATE_ARN }}|g" ./deploy/xyz_config.yaml
-      
+    
     - name: Deploy to EKS
       run: kubectl apply -f ./deploy/xyz_config.yaml
       
@@ -62,20 +68,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: eparkertamu96/xyz_automated_tests
+          repository: eparkertamu96/xyz_automated_testing
 
       - name: Setup project
         run: |
           sudo apt-get update
           sudo apt install nodejs
-          sudo npm install
           
       - name: Execute Tests
         run: |
-          TEST_URL=${{ secrets.APP_URL }} npx nightwatch ./test/xyz_tests.ts --env api_testing
+          npm install
+          ls -la
+          TEST_URL=${{ secrets.APP_URL }} npx nightwatch ./test/xyz_tests.js --env api_testing
   
       - name: Archive test results
         uses: actions/upload-artifact@v3
         with:
-          name: code-coverage-report
+          name: test_results
           path: tests_output
