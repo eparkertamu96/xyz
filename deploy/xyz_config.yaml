@@ -26,10 +26,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: xyz-api-service
-  # annotations:
-  #   service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
-  #   service.beta.kubernetes.io/aws-load-balancer-ssl-cert: %%CERTIFICATE_ARN%%
-  #   service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: %%CERTIFICATE_ARN%%
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
 
 spec:
   selector:
@@ -38,7 +38,7 @@ spec:
     - name: http
       port: 80
       targetPort: 80
-    # - name: https
-    #   port: 443
-    #   targetPort: 80
+    - name: https
+      port: 443
+      targetPort: 80
   type: LoadBalancer
